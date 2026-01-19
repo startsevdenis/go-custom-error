@@ -5,10 +5,11 @@ import "fmt"
 type ErrorExternalDeserialisation struct {
 	Content string
 	Message string
+	Err     error
 }
 
-func NewErrorExternalDeserialisation(content string, message string) *ErrorExternalDeserialisation {
-	return &ErrorExternalDeserialisation{Content: content, Message: message}
+func NewErrorExternalDeserialisation(content string, message string, err error) *ErrorExternalDeserialisation {
+	return &ErrorExternalDeserialisation{Content: content, Message: message, Err: err}
 }
 
 func (e *ErrorExternalDeserialisation) Error() string {
@@ -17,4 +18,8 @@ func (e *ErrorExternalDeserialisation) Error() string {
 
 func (e *ErrorExternalDeserialisation) PublicMessage() string {
 	return internal_error
+}
+
+func (e *ErrorExternalDeserialisation) Unwrap() error {
+	return e.Err
 }
